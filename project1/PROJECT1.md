@@ -1,9 +1,9 @@
 # Amazon Review Exploratory Data Analysis
-* Due date: March 9 2021, 11:59 pm
+* Due date: March 14, 2021, 11:59 pm
 
 In your first CS 3354 programming assignment, you will implement methods to support exploratory data analysis module for the rating analysisof various rating summaries. We are using a real example of ratings from Amazon [data], (http://jmcauley.ucsd.edu/data/amazon/links.html), and  have provided Amazon Instant Video and Music files as examples in data folder. 
 
-Students are expected to add methods and javadoc to the following 4 Java classes: Datase DatasetHandler, DataAnalysis, and RatingSummary, as outlined in project description and grading [RUBRIC](RUBRIC.md) document. **DO NOT EDIT ** Rating, AbstractRatingSummary, and RatingStatsApp classes.
+Students are expected to add methods and javadoc to the following 4 Java classes: Dataset, DatasetHandler, DataAnalysis, and RatingSummary, as outlined in project description and grading [RUBRIC](RUBRIC.md) document. **DO NOT EDIT ** Rating, AbstractRatingSummary, and RatingStatsApp classes.
 
 ## Data Folder
 
@@ -16,14 +16,14 @@ We will refer to it as **data** folder in the project.  This is a **default** da
 
 ## data.csv
 
-**data.csv** is in **data** folder (simulating database file) and it contains the provided filenames, number of reviews, and datase Id string identifiers, used for output summar filenames. If it is not there, your code should cvreate it. 
+**data.csv** is in **data** folder (simulating database file) and it contains the provided filenames, number of reviews, and datase Id string identifiers, used for output summary filenames. If it is not there, your code should create it. 
 
 ```
-DataID,RAW_FILE,RATINGS_NO,STAT_FILE
-SMALL,small.csv,2,ratingSummary_SMALL.csv
-TEST,test.csv,5,ratingSummary_TEST.csv
-VIDEO,Instant_Video.csv,583,933,ratingSummary_VIDEO.csv
-MUSIC,Digital_Music.csv,836,006,ratingSummary_MUSIC.csv
+dataID,NUMBER,RATINGS,STATS
+SMALL,2,small.csv,ratingSummary_SMALL.csv
+TEST,5,test.csv,ratingSummary_TEST.csv
+VIDEO,583,933,Instant_Video.csv,ratingSummary_VIDEO.csv
+MUSIC,836,006,Digital_Music.csv,ratingSummary_MUSIC.csv
 ```
 
 ### Input Raw File Format
@@ -41,7 +41,7 @@ ReviewerID,ProductID,ReviewScore
 * name - ratingSummary_<DATA_ID>.csv - corresponds to the name in data.csv file entry, DATA_ID column. 
 * format - every lines in .csv file corresponds to: 
 ```
-Id,degree,product avg,product,reviewer avg,
+Id,degree,product avg,reviewer avg,
 A00625243BI8W1SSZNLMD,8,4.875,4.486763483
 B00I3MPDP4,455,4.23,3.98
 ```
@@ -71,7 +71,7 @@ Students are expected to add methods and javadoc to the following 4 Java classes
 
 * Start from the code sceleton already in the https://git.txstate.edu/CS3354/ID.git folder. The code skeleton is given. 
   * **Do not change existing** class names method signatures and implementation. 
-  * **Add** missing methods implementations to AbstractRatingSummary, Rating, RatingStatsApp and Data Analysis.
+  * **Add** missing methods implementations to Dataset, DatasetHandler, DataAnalysis, and RatingSummary.
   * Add methods and classes if needed.    
 
 Your submission should be in package project1, and should compile from commandline using the following commands (**ID** stand for NetID or TeamID): 
