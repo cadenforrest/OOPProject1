@@ -41,6 +41,7 @@ public class Dataset {
 		this.rawFile = inRawFile;
 		this.ratingList = new ArrayList<>();
 		this.ratingStat = new ArrayList<>();
+		loadRatings();
 	}
 
 	/**
