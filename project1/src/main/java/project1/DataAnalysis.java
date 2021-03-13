@@ -23,6 +23,8 @@ public class DataAnalysis {
 	public static List<AbstractRatingSummary> sortByDegree(List<AbstractRatingSummary> inList) {
     
 		// your code here
+		return inList.sort((AbstractRatingSummary r1, AbstractRatingSummary r2) ->
+									Long.compare(r2.getDegree(), r1.getDegree()));
 	}
 
 	/**
@@ -32,6 +34,8 @@ public class DataAnalysis {
 	public static List<AbstractRatingSummary> sortByAvgDiff(List<AbstractRatingSummary> inList) {
 
 		// your code here 
+		return inList.sort((AbstractRatingSummary r1, AbstractRatingSummary r2) ->
+									Long.compare(r2.avgScore(), r1.avgScore()));
 	}
 
 	
