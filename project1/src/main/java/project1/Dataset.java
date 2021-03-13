@@ -47,8 +47,10 @@ public class Dataset {
 	/**
 	 * Implement loadRatings method
 	 * Add javadoc
+   * @return
 	 */
 	public int loadRatings() {
+    //test
 
 		File file = this.getRawFile().toFile();
 		String line = null;
