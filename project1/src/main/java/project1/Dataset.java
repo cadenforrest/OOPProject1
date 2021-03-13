@@ -121,6 +121,26 @@ public class Dataset {
 	public boolean computeStats() {
 		
 		// your code here 
+		        /*
+        (instantiate new lists of users/products:
+        id
+        amount
+        rating                                //also called reviews
+        stats
+        
+        if(id[0] == A)
+            is a reviewer
+            we need to compute:
+                degree                 - the number of reviews from the ID
+                product average     - all possible scores (from all the reviewers) of the products that this reviewer rated
+                reviewer average    - all review scores that this reviewer provided
+        if(id[0] == B)
+            is a product
+            we need to compute:
+                degree                - the number of reviews from ID
+                product average        - all possible reviews for this product from all reviewers
+                reviewer average    - ratings from all reviews (from all the reviewers) that reviewed this product 
+        */
     String statsString = saveStats();
 
 
