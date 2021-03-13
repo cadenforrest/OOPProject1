@@ -21,7 +21,7 @@ public class DataAnalysis {
 	 * Add javadoc
 	 */
 	public static List<AbstractRatingSummary> sortByDegree(List<AbstractRatingSummary> inList) {
-
+    
 		// your code here
 	}
 

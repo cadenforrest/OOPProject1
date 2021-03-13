@@ -47,39 +47,50 @@ public class Dataset {
 	/**
 	 * Implement loadRatings method
 	 * Add javadoc
-   * @return
+   * @return number of ratings
 	 */
 	public int loadRatings() {
     //test
-
 		File file = this.getRawFile().toFile();
 		String line = null;
 		String pID = null;
 		String rID = null;
 		float rating = null;
 
-		while (line = file.readLine()){
-			String[] lineArray = line.split(",");
 
-			pID = lineArray[0];
-			rID = lineArray[1];
-			rating = Float.parseFloat(lineArray[2]);
+    if (this.getRawFile().toFile()){
+      while (line = file.readLine()){
+        String[] lineArray = line.split(",");
+  
+        pID = lineArray[0];
+        rID = lineArray[1];
+        rating = Float.parseFloat(lineArray[2]);
+  
+        Rating tempRating = new Rating(pID, rID, rating);
+  
+        this.ratingList.add(tempRating);
+      }
+      return this.ratingList.size();
+    }
 
-			Rating tempRating = new Rating(pID, rID, rating);
-
-			ratingList.add(tempRating);
-		}
-
-		return ratingList.size();
+    else{
+      return -1;
+    }
 	}
 
 	/**
 	 * Implement loadStats method
 	 * Add javadoc
+   * @return number of stats
 	 */
 	public int loadStats(Path inStatPath) {
 
 		//your code here
+    File file = this.inStatPath().toFile(); 
+
+
+
+
 
 	}
 
