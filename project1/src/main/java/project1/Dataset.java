@@ -50,12 +50,25 @@ public class Dataset {
 	 */
 	public int loadRatings() {
 
-		//your code here 
+		File file = this.getRawFile().toFile();
+		String line = null;
+		String pID = null;
+		String rID = null;
+		float rating = null;
 
+		while (line = file.readLine()){
+			String[] lineArray = line.split(",");
 
+			pID = lineArray[0];
+			rID = lineArray[1];
+			rating = Float.parseFloat(lineArray[2]);
 
+			Rating tempRating = new Rating(pID, rID, rating);
 
+			ratingList.add(tempRating);
+		}
 
+		return ratingList.size();
 	}
 
 	/**
