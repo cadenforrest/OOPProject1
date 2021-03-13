@@ -47,11 +47,11 @@ public class Dataset {
 	/**
 	 * Implement loadRatings method
 	 * Add javadoc
-   * @return number of ratings
+   * @return number of stats, -1 if file doesn't exist
 	 */
 	public int loadRatings() {
     //test
-		File file = this.getRawFile().toFile();
+		File file = this.inStatPath().toFile();
 		String line = null;
 		String pID = null;
 		String rID = null;
@@ -59,6 +59,41 @@ public class Dataset {
 
 
     if (this.getRawFile().toFile()){
+      while (line = file.readLine()){
+        String[] lineArray = line.split(",");
+  
+        pID = lineArray[0];
+        rID = lineArray[1];
+        rating = Float.parseFloat(lineArray[2]);
+  
+        RatingSummary tempSummary = new RatingSummary(pID, rID, rating);
+  
+        this.ratingStat.add(tempSummary);
+      }
+      return this.ratingStat.size();
+    }
+
+    else{
+      return -1;
+    }
+	}
+
+	/**
+	 * Implement loadStats method
+	 * Add javadoc
+   * @return number of stats, 0 if file doesn't exist
+	 */
+	public int loadStats(Path inStatPath) {
+
+		//your code here
+		File file = this.inStatPath().toFile();
+		String line = null;
+		String pID = null;
+		String rID = null;
+		float rating = null;
+
+
+    if (this.inStatPath().toFile()){
       while (line = file.readLine()){
         String[] lineArray = line.split(",");
   
@@ -74,24 +109,8 @@ public class Dataset {
     }
 
     else{
-      return -1;
+      return 0;
     }
-	}
-
-	/**
-	 * Implement loadStats method
-	 * Add javadoc
-   * @return number of stats
-	 */
-	public int loadStats(Path inStatPath) {
-
-		//your code here
-    File file = this.inStatPath().toFile(); 
-
-
-
-
-
 	}
 
 	/**
