@@ -129,7 +129,7 @@ public class RatingSummary extends AbstractRatingSummary{
 	 * add javadoc
 	 */
 	public Float sortStats(){
-
+    
 		// your code here
 
 	}
@@ -139,8 +139,6 @@ public class RatingSummary extends AbstractRatingSummary{
 	 * add javadoc 
 	 */
 	public Float avgScore(){
-		
-		// your code here
+		return this.getList().get(0)-this.getList().get(1);
 	}
-
 }

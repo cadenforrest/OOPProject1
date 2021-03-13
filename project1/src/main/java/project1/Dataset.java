@@ -116,10 +116,13 @@ public class Dataset {
 	/**
 	 * Implement computeStats method
 	 * Add javadoc
+   * @return boolean on success
 	 */
 	public boolean computeStats() {
 		
 		// your code here 
+    String statsString = saveStats(); 
+    
 
 
 		
