@@ -65,9 +65,11 @@ public class DatasetHandler{
 	 * add javadoc
 	 */
 	public String printDB(){
+    StringBuilder dbString = new StringBuilder(); 
+    for (String temp : this.set)
 
 		// your code here 
-
+    return dbString; 
 	}
 
 	/**
