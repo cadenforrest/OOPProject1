@@ -119,11 +119,89 @@ public class RatingSummary extends AbstractRatingSummary{
 	 * add javadoc
 	 */
 	public void collectStats(final List<Rating> rawRatings){
-    
-		// your code here
 
+
+    long reviewerDegree = 0; 
+    long productDegree = 0; 
+    ArrayList<String> productsReviewedArray = new ArrayList<String>(); 
+    ArrayList<String> reviewersArray = new ArrayList<String>(); 
+    long totalRating = 0; // total number of ratings
+    long ratingSum = 0; // sum of the ratings of the products
+    long reviewerSum = 0; 
+    long totalUserRatings = 0; 
+    long totalProductRatings = 0; 
+    long totalReviewersRating = 0; 
+
+    for (Rating temp: rawRatings){
+      //BEGIN CALCULATION FOR REVIEWER STATISTICS
+      if (temp.getReviewerID() == this.getNodeID()){
+        reviewerDegree++;
+        if (!productsReviewedArray.contains(temp.getProductID())){
+          productsReviewedArray.add(temp.getProductID()); 
+        }
+        totalUserRatings+=temp.getRating(); 
+      }
+
+
+      //BEGIN CALCULATION FOR PRODUCT STATISTICS
+      if (temp.getProductID() == this.getNodeID()){
+        productDegree++; 
+        if (!reviewersArray.contains(temp.getReviewerID())){
+          reviewersArray.add(temp.getReviewerID()); 
+        }
+        totalProductRatings+=temp.getRating(); 
+      }
+
+
+
+    }
+
+
+    //CALCULATE PRODUCT AVG FOR REVIEWER ID
+    if (this.getNodeID().charAt(0) == 'A'){
+      for (String tempProd: productsReviewedArray){
+        for (Rating tempRating: rawRatings){
+          if (tempRating.getProductID() == tempProd) {
+            ratingSum+=tempRating.getRating(); 
+            totalRating++; 
+          }
+        }
+      }
+      //calc avg
+      float prodAvg = ratingSum / totalRating; 
+      float reviewerAvg = totalUserRatings / reviewerDegree; 
+      this.setList(prodAvg, reviewerAvg);
+      this.setDegree(reviewerDegree);
+    }
+
+    //CALCULATE REVIEWER AVG FOR PRODUCT ID
+    else {
+      for (String tempReviewer: reviewersArray){
+        for (Rating tempRating: rawRatings){
+          if (tempRating.getReviewerID() == tempReviewer){
+            reviewerSum+=tempRating.getRating(); 
+            totalReviewersRating++; 
+          }
+        }
+      }
+      float prodAvg = reviewerSum / totalReviewersRating; 
+      float reviewerAvg = totalProductRatings / productDegree; 
+      this.setList(prodAvg, reviewerAvg);
+      this.setDegree(productDegree);
+    }
 	}
 
+  public Float calcProdAvg(){
+    Float prodAvg;
+
+
+
+
+
+    return prodAvg; 
+  }
+
+  
 	/**
 	 * implement sortStats
 	 * add javadoc

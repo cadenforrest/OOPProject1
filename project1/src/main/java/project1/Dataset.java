@@ -134,46 +134,32 @@ public class Dataset {
    * @return boolean on success
 	 */
 	public boolean computeStats() {
+    for (Rating tempRating: this.ratingList){
+      boolean prodExist = false;
+      boolean reviewerExist = false;
 
-    //for each rating in ratinglist
-      //if reviewer doesn't exist, make him exist
-      //instantiate a ratingsummary object 
-      //add ratingSummary object to ratingStat
-
-    for (Rating temp: this.ratingList){
-      if (temp.getProductID()){
-
-
+      for (AbstractRatingSummary tempSummary: this.ratingStat){ 
+        if (tempRating.getProductID() == tempSummary.getNodeID()){
+          prodExist = true;
+        }
+        if (tempRating.getReviewerID() == tempSummary.getNodeID()){
+          reviewerExist = true;
+        }
       }
-      RatingSummary rSummary = new RatingSummary(getDataId(), this.ratingList); 
-      this.ratingStat.add(rSummary);
+
+      if (!prodExist){ 
+        AbstractRatingSummary temp = new RatingSummary(tempRating.getProductID(), this.ratingList);
+        this.ratingStat.add(temp); 
+      }
+
+      if (!reviewerExist){
+        AbstractRatingSummary temp1 = new RatingSummary(tempRating.getReviewerID(), this.ratingList);
+        this.ratingStat.add(temp1); 
+      }
+    
     }
-
-
-		// your code here 
-		        /*
-        (instantiate new lists of users/products:
-        id
-        amount
-        rating                                //also called reviews
-        stats
-        
-        if(id[0] == A)
-            is a reviewer
-            we need to compute:
-                degree                 - the number of reviews from the ID
-                product average     - all possible scores (from all the reviewers) of the products that this reviewer rated
-                reviewer average    - all review scores that this reviewer provided
-        if(id[0] == B)
-            is a product
-            we need to compute:
-                degree                - the number of reviews from ID
-                product average        - all possible reviews for this product from all reviewers
-                reviewer average    - ratings from all reviews (from all the reviewers) that reviewed this product 
-        */
-
-
     return true; 
+
 	}
 
 	/**
