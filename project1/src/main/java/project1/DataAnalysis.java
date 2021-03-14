@@ -62,8 +62,8 @@ public class DataAnalysis {
 		}
 
 		//Create reviewer and product sublists
-		List<AbstractRatingSummary> reviewersList = inList.subList(0, startOfProducts - 1);
-		List<AbstractRatingSummary> productsList = inList.subList(startOfProducts, inList.size() - 1);
+		List<AbstractRatingSummary> reviewersList = inList.subList(0, startOfProducts);
+		List<AbstractRatingSummary> productsList = inList.subList(startOfProducts, inList.size());
 
 		//Begin StringBuilder output
 		stringBuilder.append("Id,degree,product avg,reviewer avg\n--------------------------------------------------\n");
