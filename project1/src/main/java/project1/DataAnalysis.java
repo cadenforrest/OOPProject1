@@ -56,9 +56,9 @@ public class DataAnalysis {
 		//Find startOfProducts: iterate through inList till first product
 		for (AbstractRatingSummary tempRS : inList){
 			if (tempRS.getNodeID().charAt(0) == 'B'){
-				startOfProducts = inList.indexOf(tempRS);
 				break;
 			}
+			startOfProducts++;
 		}
 
 		//Create reviewer and product sublists
@@ -87,7 +87,7 @@ public class DataAnalysis {
 		stringBuilder.append(appendTopK(productsList, k));
 
 		productsList = sortByAvgDiff(productsList);
-		stringBuilder.append("Products with highest rating discrepancies");
+		stringBuilder.append("Products with highest rating discrepancies\n");
 		stringBuilder.append(appendTopK(productsList, k));
 
 		stringBuilder.append("--------------------------------------------------\n");
@@ -106,6 +106,7 @@ public class DataAnalysis {
 			stringBuilder.append(inList.get(i).getDegree() + ",");
 			stringBuilder.append(inList.get(i).getList().get(0) + ",");
 			stringBuilder.append(inList.get(i).getList().get(1) + "\n");
+			i++;
 		}
 		
 		//Catch for if there are less than k products or entries in the sublist

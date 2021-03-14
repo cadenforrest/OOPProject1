@@ -134,30 +134,32 @@ public class Dataset {
    * @return boolean on success
 	 */
 	public boolean computeStats() {
+	System.out.println("COMPUTE STATS");
     for (Rating tempRating: this.ratingList){
       boolean prodExist = false;
       boolean reviewerExist = false;
 
       for (AbstractRatingSummary tempSummary: this.ratingStat){ 
-        if (tempRating.getProductID() == tempSummary.getNodeID()){
+        if (tempRating.getProductID().equals(tempSummary.getNodeID())){
           prodExist = true;
+		  System.out.println(":LKSDJFL:SKDJF:<SKDJF:<KSJDF");
         }
-        if (tempRating.getReviewerID() == tempSummary.getNodeID()){
+        if (tempRating.getReviewerID().equals(tempSummary.getNodeID())){
           reviewerExist = true;
+		  System.out.println("alsdekfjal;skdjf;lai");
         }
-      }
+	}
+		if (!prodExist){ 
+    	AbstractRatingSummary temp = new RatingSummary(tempRating.getProductID(), this.ratingList);
+    	this.ratingStat.add(temp); 
+    	}
 
-      if (!prodExist){ 
-        AbstractRatingSummary temp = new RatingSummary(tempRating.getProductID(), this.ratingList);
-        this.ratingStat.add(temp); 
-      }
-
-      if (!reviewerExist){
+    	if (!reviewerExist){
         AbstractRatingSummary temp1 = new RatingSummary(tempRating.getReviewerID(), this.ratingList);
         this.ratingStat.add(0, temp1); 
-      }
+		}
+	}
     
-    }
     return true; 
 
 	}
