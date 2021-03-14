@@ -71,48 +71,48 @@ public class DataAnalysis {
 		
 		//Reviewer output
 		reviewersList = sortByDegree(reviewersList);
-		stringBuilder.append("Reviewers with highest number of reviews\n")
-		for(int i = 0; i < 3; i++){
-			stringBuilder.append(reviewersList.get(i).getNodeID() + ",");
-			stringBuilder.append(reviewersList.get(i).getDegree() + ",");
-			stringBuilder.append(reviewersList.get(i).getList().get(0) + ",");
-			stringBuilder.append(reviewersList.get(i).getList().get(1) + "\n");
-		}
+		stringBuilder.append("Reviewers with highest number of reviews\n");
+		stringBuilder.append(appendTopK(reviewersList, k));
 
 		reviewersList = sortByAvgDiff(reviewersList);
-		stringBuilder.append("Reviewers with highest discrepencies per reviewer\n")
-		for(int i = 0; i < 3; i++){
-			stringBuilder.append(reviewersList.get(i).getNodeID() + ",");
-			stringBuilder.append(reviewersList.get(i).getDegree() + ",");
-			stringBuilder.append(reviewersList.get(i).getList().get(0) + ",");
-			stringBuilder.append(reviewersList.get(i).getList().get(1) + "\n");
-		}
+		stringBuilder.append("Reviewers with highest discrepencies per reviewer\n");
+		stringBuilder.append(appendTopK(reviewersList, k));
 		
-		stringBuilder.append("--------------------------------------------------\nTop 3 PRODUCT ANALYSIS\n")
+		stringBuilder.append("--------------------------------------------------\nTop 3 PRODUCT ANALYSIS\n");
 		stringBuilder.append("--------------------------------------------------\n");
 
 		//Product output
 		productsList = sortByDegree(productsList);
 		stringBuilder.append("Products with highest number of reviews\n");
-		for(int i = 0; i < 3; i++){
-			stringBuilder.append(productsList.get(i).getNodeID() + ",");
-			stringBuilder.append(productsList.get(i).getDegree() + ",");
-			stringBuilder.append(productsList.get(i).getList().get(0) + ",");
-			stringBuilder.append(productsList.get(i).getList().get(1) + "\n");
-		}
+		stringBuilder.append(appendTopK(productsList, k));
 
 		productsList = sortByAvgDiff(productsList);
 		stringBuilder.append("Products with highest rating discrepancies");
-		for(int i = 0; i < 3; i++){
-			stringBuilder.append(productsList.get(i).getNodeID() + ",");
-			stringBuilder.append(productsList.get(i).getDegree() + ",");
-			stringBuilder.append(productsList.get(i).getList().get(0) + ",");
-			stringBuilder.append(productsList.get(i).getList().get(1) + "\n");
-		}
+		stringBuilder.append(appendTopK(productsList, k));
 
 		stringBuilder.append("--------------------------------------------------\n");
 
 		//Conver stringBuilder to String type finalString and return
+		finalString = stringBuilder.toString();
+		return finalString;
+	}
+
+	public static String appendTopK(List<AbstractRatingSummary> inList, int k){
+		StringBuilder stringBuilder = new StringBuilder();
+		String finalString = null;
+		int i = 0;
+		while(i < k && i < inList.size()){
+			stringBuilder.append(inList.get(i).getNodeID() + ",");
+			stringBuilder.append(inList.get(i).getDegree() + ",");
+			stringBuilder.append(inList.get(i).getList().get(0) + ",");
+			stringBuilder.append(inList.get(i).getList().get(1) + "\n");
+		}
+		
+		//Catch for if there are less than k products or entries in the sublist
+		if (i < k - 1){
+			stringBuilder.append("There are less than k entries for this type\n");
+		}
+
 		finalString = stringBuilder.toString();
 		return finalString;
 	}
