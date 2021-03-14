@@ -57,29 +57,38 @@ public class DatasetHandler{
 				}
 			}
 		}
-
 	}
 
 	/**
-	 * implement printDB() method
+	 * Creates a string from this.db
+   * @return String 
 	 * add javadoc
 	 */
 	public String printDB(){
-    StringBuilder dbString = new StringBuilder(); 
-    for (String temp : this.set)
 
+    StringBuilder dbString = new StringBuilder(); 
+    for (Dataset temp : this.db){
+      dbString.append(temp.toString()); 
+      // dbString.replace(start, end, str)
+    }
 		// your code here 
-    return dbString; 
+    return dbString.toString(); 
 	}
 
 	/**
-	 * implement saveDBToFile() method
-	 * add javadoc
+   * Saves printDB() to this.getDbPath()
+   * @throws IOException
 	 */
 	public void saveDBToFile() throws IOException{
 		
 		//your code here
-		
+    try{
+      String database = printDB(); 
+      Files.writeString(this.getDbPath(), database); 
+    }
+    catch(IOException e){
+      System.out.println("Failed to save database, file not found"); 
+    }
 	}
 
 	/**
@@ -90,7 +99,6 @@ public class DatasetHandler{
 	public void saveReportToFile(final String dataID, int k){
 		
 		try{
-			
 			String report = DataAnalysis.printReport(this.getCollection(dataID).getRatingStat(),k);
 			System.out.println(report);
 			Files.writeString(this.defineReportPath(dataID),report);
@@ -101,16 +109,18 @@ public class DatasetHandler{
 	}
 
 	/**
-	 * implement saveStatsToFile() method
-	 * add javadoc
+	 * saves stats to file dataID
+   * @param dataID unique dataset identifier
 	 */
 	public void saveStatsToFile(final String dataID){
-		
-		//your code here
-
-
-
-
+		try{
+      for (Dataset temp: this.db){
+        Files.writeString(defineStatPath(dataID), temp.saveStats()); 
+      }
+    }
+    catch(IOException e){
+      System.out.println("Failed to save stats, file not found");
+    }
 	}
 
 	//////////////////////PATH HANDLING METHODS//////////////////////////////////////
