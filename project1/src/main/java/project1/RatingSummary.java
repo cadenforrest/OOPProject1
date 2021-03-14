@@ -184,8 +184,8 @@ public class RatingSummary extends AbstractRatingSummary{
           }
         }
       }
-      float prodAvg = reviewerSum / totalReviewersRating; 
-      float reviewerAvg = totalProductRatings / productDegree; 
+      float prodAvg = totalProductRatings / productDegree; 
+      float reviewerAvg = reviewerSum / totalReviewersRating; 
       this.setList(prodAvg, reviewerAvg);
       this.setDegree(productDegree);
     }
