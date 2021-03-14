@@ -119,7 +119,7 @@ public class RatingSummary extends AbstractRatingSummary{
 	 * add javadoc
 	 */
 	public void collectStats(final List<Rating> rawRatings){
-
+    
 		// your code here
 
 	}

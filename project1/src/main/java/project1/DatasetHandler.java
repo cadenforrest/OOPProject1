@@ -320,8 +320,8 @@ public class DatasetHandler{
 	public Dataset populateCollection(String dataID) throws IOException{
 
 		Dataset found = null; 
-        Iterator<Dataset> value = this.db.iterator(); 
-        while (value.hasNext()) { 
+    Iterator<Dataset> value = this.db.iterator(); 
+    while (value.hasNext()) { 
 			found = value.next();
 			if (dataID.equalsIgnoreCase(found.getDataId())){	
 			  this.addDataset(found);

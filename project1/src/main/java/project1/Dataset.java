@@ -2,12 +2,14 @@ package project1;
 
 /* Team needs to import relevant packages here */
 
+import java.util.Scanner;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.nio.file.Path;
 import java.nio.file.Files;
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
@@ -47,70 +49,83 @@ public class Dataset {
 	/**
 	 * Implement loadRatings method
 	 * Add javadoc
-   * @return number of stats, -1 if file doesn't exist
+   * @return number of items in ratingList
 	 */
 	public int loadRatings() {
     //test
-		File file = this.inStatPath().toFile();
-		String line = null;
-		String pID = null;
-		String rID = null;
-		float rating = null;
+
+    try{
+      File file = this.getRawFile().toFile();
+      Scanner scnr = new Scanner(file); 
+      String line;
+      String pID;
+      String rID;
+      float rating;
 
 
-    if (this.getRawFile().toFile()){
-      while (line = file.readLine()){
+      
+      while (scnr.hasNextLine()){
+        line = scnr.nextLine(); 
         String[] lineArray = line.split(",");
-  
+
         pID = lineArray[0];
         rID = lineArray[1];
         rating = Float.parseFloat(lineArray[2]);
-  
-        RatingSummary tempSummary = new RatingSummary(pID, rID, rating);
-  
-        this.ratingStat.add(tempSummary);
+
+        Rating tempRating = new Rating(pID, rID, rating);
+
+        this.ratingList.add(tempRating);
       }
-      return this.ratingStat.size();
+      scnr.close();
     }
 
-    else{
-      return -1;
+    catch (FileNotFoundException e){ 
+      System.out.println("Failed to load ratings, file not found");
     }
+    return this.ratingList.size();
 	}
 
 	/**
 	 * Implement loadStats method
 	 * Add javadoc
-   * @return number of stats, 0 if file doesn't exist
+   * @return number of entries in ratingStat, 0 if file doesn't exist
 	 */
 	public int loadStats(Path inStatPath) {
 
+
 		//your code here
-		File file = this.inStatPath().toFile();
-		String line = null;
-		String pID = null;
-		String rID = null;
-		float rating = null;
+
+    try{
+      File file = inStatPath.toFile();
+      Scanner scnr = new Scanner(file); 
+      String line;
+      String id;
+      long degree;
+      Float productAvg;
+      Float reviewerAvg; 
 
 
-    if (this.inStatPath().toFile()){
-      while (line = file.readLine()){
+
+      while (scnr.hasNextLine()){
+        line = scnr.nextLine(); 
         String[] lineArray = line.split(",");
-  
-        pID = lineArray[0];
-        rID = lineArray[1];
-        rating = Float.parseFloat(lineArray[2]);
-  
-        Rating tempRating = new Rating(pID, rID, rating);
-  
-        this.ratingList.add(tempRating);
-      }
-      return this.ratingList.size();
-    }
 
-    else{
-      return 0;
+        id = lineArray[0]; //product/reviewer id
+        degree = Long.parseLong(lineArray[1]);
+        productAvg = Float.parseFloat(lineArray[2]);
+        reviewerAvg = Float.parseFloat(lineArray[3]);
+
+        RatingSummary tempSummary = new RatingSummary(id, degree, productAvg, reviewerAvg);
+
+        this.ratingStat.add(tempSummary);
+      }
+      scnr.close();
     }
+    
+    catch (FileNotFoundException e){
+      System.out.println("Failed to load stats, file not found");
+    }
+    return this.ratingStat.size();
 	}
 
 	/**
@@ -119,7 +134,22 @@ public class Dataset {
    * @return boolean on success
 	 */
 	public boolean computeStats() {
-		
+
+    //for each rating in ratinglist
+      //if reviewer doesn't exist, make him exist
+      //instantiate a ratingsummary object 
+      //add ratingSummary object to ratingStat
+
+    for (Rating temp: this.ratingList){
+      if (temp.getProductID()){
+
+
+      }
+      RatingSummary rSummary = new RatingSummary(getDataId(), this.ratingList); 
+      this.ratingStat.add(rSummary);
+    }
+
+
 		// your code here 
 		        /*
         (instantiate new lists of users/products:
@@ -141,10 +171,9 @@ public class Dataset {
                 product average        - all possible reviews for this product from all reviewers
                 reviewer average    - ratings from all reviews (from all the reviewers) that reviewed this product 
         */
-    String statsString = saveStats();
 
 
-		
+    return true; 
 	}
 
 	/**
