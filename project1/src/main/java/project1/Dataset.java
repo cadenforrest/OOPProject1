@@ -154,7 +154,7 @@ public class Dataset {
 
       if (!reviewerExist){
         AbstractRatingSummary temp1 = new RatingSummary(tempRating.getReviewerID(), this.ratingList);
-        this.ratingStat.add(temp1); 
+        this.ratingStat.add(0, temp1); 
       }
     
     }
