@@ -151,11 +151,7 @@ public class RatingSummary extends AbstractRatingSummary{
         }
         totalProductRatings+=temp.getRating(); 
       }
-
-
-
     }
-
 
     //CALCULATE PRODUCT AVG FOR REVIEWER ID
     if (this.getNodeID().charAt(0) == 'A'){
@@ -191,15 +187,6 @@ public class RatingSummary extends AbstractRatingSummary{
     }
 	}
 
-  public Float calcProdAvg(){
-    Float prodAvg;
-
-
-
-
-
-    return prodAvg; 
-  }
 
   
 	/**
