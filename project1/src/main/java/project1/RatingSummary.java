@@ -18,6 +18,7 @@ public class RatingSummary extends AbstractRatingSummary{
 	 */
 	public RatingSummary(final String inNodeID, final long inDegree, final List<Float> inList) {
 		super(inNodeID, inDegree, inList);
+		System.out.println("1111111111");
 	}
 
 	/**
@@ -29,6 +30,7 @@ public class RatingSummary extends AbstractRatingSummary{
 
 		super(inNodeID, inDegree);
 		this.setList();
+		System.out.println("22222222");
 	}
 
 	/**
@@ -42,6 +44,7 @@ public class RatingSummary extends AbstractRatingSummary{
 	public RatingSummary(final String id, final long degree, final float productAvg, final float reviewerAvg) {
 		this(id, degree);
 		this.setList(productAvg, reviewerAvg);
+		System.out.println("333333333333333");
 	}
 
 	/**
@@ -52,6 +55,7 @@ public class RatingSummary extends AbstractRatingSummary{
 	public RatingSummary(final String id, final List<Rating> rawRatings) {
 		super(id); 
 		this.collectStats(rawRatings);
+		System.out.println("444444444444");
 	}
 
 	/**
@@ -120,7 +124,7 @@ public class RatingSummary extends AbstractRatingSummary{
 	 */
 	public void collectStats(final List<Rating> rawRatings){
 
-
+	System.out.println("IN COLLECT STATS");
     long reviewerDegree = 0; 
     long productDegree = 0; 
     ArrayList<String> productsReviewedArray = new ArrayList<String>(); 
@@ -134,7 +138,8 @@ public class RatingSummary extends AbstractRatingSummary{
 
     for (Rating temp: rawRatings){
       //BEGIN CALCULATION FOR REVIEWER STATISTICS
-      if (temp.getReviewerID() == this.getNodeID()){
+      if (temp.getReviewerID().equals(this.getNodeID())){
+		System.out.println("IN 1st IF");
         reviewerDegree++;
         if (!productsReviewedArray.contains(temp.getProductID())){
           productsReviewedArray.add(temp.getProductID()); 
@@ -144,7 +149,8 @@ public class RatingSummary extends AbstractRatingSummary{
 
 
       //BEGIN CALCULATION FOR PRODUCT STATISTICS
-      if (temp.getProductID() == this.getNodeID()){
+      if (temp.getProductID().equals(this.getNodeID())){
+		System.out.println("IN 2nd IF");
         productDegree++; 
         if (!reviewersArray.contains(temp.getReviewerID())){
           reviewersArray.add(temp.getReviewerID()); 
@@ -155,33 +161,35 @@ public class RatingSummary extends AbstractRatingSummary{
 
     //CALCULATE PRODUCT AVG FOR REVIEWER ID
     if (this.getNodeID().charAt(0) == 'A'){
+	System.out.println("IN 3rd IF");
       for (String tempProd: productsReviewedArray){
         for (Rating tempRating: rawRatings){
-          if (tempRating.getProductID() == tempProd) {
+          if (tempRating.getProductID().equals(tempProd)) {
             ratingSum+=tempRating.getRating(); 
             totalRating++; 
           }
         }
       }
       //calc avg
-      float prodAvg = ratingSum / totalRating; 
-      float reviewerAvg = totalUserRatings / reviewerDegree; 
+      float prodAvg = (float) ratingSum / totalRating; 
+      float reviewerAvg = (float) totalUserRatings / reviewerDegree; 
       this.setList(prodAvg, reviewerAvg);
       this.setDegree(reviewerDegree);
     }
 
     //CALCULATE REVIEWER AVG FOR PRODUCT ID
     else {
+		System.out.println("IN ELSE");
       for (String tempReviewer: reviewersArray){
         for (Rating tempRating: rawRatings){
-          if (tempRating.getReviewerID() == tempReviewer){
+          if (tempRating.getReviewerID().equals(tempReviewer)){
             reviewerSum+=tempRating.getRating(); 
             totalReviewersRating++; 
           }
         }
       }
-      float prodAvg = totalProductRatings / productDegree; 
-      float reviewerAvg = reviewerSum / totalReviewersRating; 
+      float prodAvg = (float) totalProductRatings / productDegree; 
+      float reviewerAvg = (float) reviewerSum / totalReviewersRating; 
       this.setList(prodAvg, reviewerAvg);
       this.setDegree(productDegree);
     }

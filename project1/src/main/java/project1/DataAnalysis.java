@@ -104,8 +104,8 @@ public class DataAnalysis {
 		while(i < k && i < inList.size()){
 			stringBuilder.append(inList.get(i).getNodeID() + ",");
 			stringBuilder.append(inList.get(i).getDegree() + ",");
-			stringBuilder.append(inList.get(i).getList().get(0) + ",");
-			stringBuilder.append(inList.get(i).getList().get(1) + "\n");
+			stringBuilder.append(String.format("%.3f,", inList.get(i).getList().get(0)));
+			stringBuilder.append(String.format("%.3f%n", inList.get(i).getList().get(1)));
 			i++;
 		}
 		
