@@ -49,25 +49,72 @@ public class DataAnalysis {
 	 * Add javadoc
 	 */
 	public static String printReport(List<AbstractRatingSummary> inList, int k) {
-     
-		int startOfProducts = 0;
+		StringBuilder stringBuilder = new StringBuilder(); //Create StringBuilder
+		int startOfProducts = 0; //Declare int variable to find index of the start of the products in inList
+		String finalString = null;
+
+		//Find startOfProducts: iterate through inList till first product
 		for (AbstractRatingSummary tempRS : inList){
 			if (tempRS.getNodeID().charAt(0) == 'B'){
 				startOfProducts = inList.indexOf(tempRS);
 				break;
 			}
 		}
+
+		//Create reviewer and product sublists
 		List<AbstractRatingSummary> reviewersList = inList.subList(0, startOfProducts - 1);
 		List<AbstractRatingSummary> productsList = inList.subList(startOfProducts, inList.size() - 1);
+
+		//Begin StringBuilder output
+		stringBuilder.append("Id,degree,product avg,reviewer avg\n--------------------------------------------------\n");
+		stringBuilder.append("Top 3 REVIEWER ANALYSIS\n--------------------------------------------------\n");
+		
+		//Reviewer output
 		reviewersList = sortByDegree(reviewersList);
-		//String builder stuff here.......
+		stringBuilder.append("Reviewers with highest number of reviews\n")
+		for(int i = 0; i < 3; i++){
+			stringBuilder.append(reviewersList.get(i).getNodeID() + ",");
+			stringBuilder.append(reviewersList.get(i).getDegree() + ",");
+			stringBuilder.append(reviewersList.get(i).getList().get(0) + ",");
+			stringBuilder.append(reviewersList.get(i).getList().get(1) + "\n");
+		}
+
 		reviewersList = sortByAvgDiff(reviewersList);
-		//String builder stuff here.......
+		stringBuilder.append("Reviewers with highest discrepencies per reviewer\n")
+		for(int i = 0; i < 3; i++){
+			stringBuilder.append(reviewersList.get(i).getNodeID() + ",");
+			stringBuilder.append(reviewersList.get(i).getDegree() + ",");
+			stringBuilder.append(reviewersList.get(i).getList().get(0) + ",");
+			stringBuilder.append(reviewersList.get(i).getList().get(1) + "\n");
+		}
+		
+		stringBuilder.append("--------------------------------------------------\nTop 3 PRODUCT ANALYSIS\n")
+		stringBuilder.append("--------------------------------------------------\n");
+
+		//Product output
 		productsList = sortByDegree(productsList);
-		//String builder stuff here.......
+		stringBuilder.append("Products with highest number of reviews\n");
+		for(int i = 0; i < 3; i++){
+			stringBuilder.append(productsList.get(i).getNodeID() + ",");
+			stringBuilder.append(productsList.get(i).getDegree() + ",");
+			stringBuilder.append(productsList.get(i).getList().get(0) + ",");
+			stringBuilder.append(productsList.get(i).getList().get(1) + "\n");
+		}
+
 		productsList = sortByAvgDiff(productsList);
-		//String builder stuff here.......
-		return "String";
+		stringBuilder.append("Products with highest rating discrepancies");
+		for(int i = 0; i < 3; i++){
+			stringBuilder.append(productsList.get(i).getNodeID() + ",");
+			stringBuilder.append(productsList.get(i).getDegree() + ",");
+			stringBuilder.append(productsList.get(i).getList().get(0) + ",");
+			stringBuilder.append(productsList.get(i).getList().get(1) + "\n");
+		}
+
+		stringBuilder.append("--------------------------------------------------\n");
+
+		//Conver stringBuilder to String type finalString and return
+		finalString = stringBuilder.toString();
+		return finalString;
 	}
 
 	/**
