@@ -67,7 +67,7 @@ public class DataAnalysis {
 
 		//Begin StringBuilder output
 		stringBuilder.append("Id,degree,product avg,reviewer avg\n--------------------------------------------------\n");
-		stringBuilder.append("Top 3 REVIEWER ANALYSIS\n--------------------------------------------------\n");
+		stringBuilder.append("Top "+ k + " REVIEWER ANALYSIS\n--------------------------------------------------\n");
 		
 		//Reviewer output
 		reviewersList = sortByDegree(reviewersList);
@@ -78,7 +78,7 @@ public class DataAnalysis {
 		stringBuilder.append("Reviewers with highest discrepencies per reviewer\n");
 		stringBuilder.append(appendTopK(reviewersList, k));
 		
-		stringBuilder.append("--------------------------------------------------\nTop 3 PRODUCT ANALYSIS\n");
+		stringBuilder.append("--------------------------------------------------\nTop " + k + " PRODUCT ANALYSIS\n");
 		stringBuilder.append("--------------------------------------------------\n");
 
 		//Product output
