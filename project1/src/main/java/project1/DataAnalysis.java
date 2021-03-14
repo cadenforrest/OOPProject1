@@ -49,8 +49,25 @@ public class DataAnalysis {
 	 * Add javadoc
 	 */
 	public static String printReport(List<AbstractRatingSummary> inList, int k) {
-    return ""; 
-		//your code here
+     
+		int startOfProducts = 0;
+		for (AbstractRatingSummary tempRS : inList){
+			if (tempRS.getNodeID().charAt(0) == 'B'){
+				startOfProducts = inList.indexOf(tempRS);
+				break;
+			}
+		}
+		List<AbstractRatingSummary> reviewersList = inList.subList(0, startOfProducts - 1);
+		List<AbstractRatingSummary> productsList = inList.subList(startOfProducts, inList.size() - 1);
+		reviewersList = sortByDegree(reviewersList);
+		//String builder stuff here.......
+		reviewersList = sortByAvgDiff(reviewersList);
+		//String builder stuff here.......
+		productsList = sortByDegree(productsList);
+		//String builder stuff here.......
+		productsList = sortByAvgDiff(productsList);
+		//String builder stuff here.......
+		return "String";
 	}
 
 	/**
