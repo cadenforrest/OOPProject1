@@ -3,17 +3,11 @@ package project1;
 /* Team needs to import relevant packages here */
 
 import java.util.Scanner;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.BufferedReader;
 import java.nio.file.Path;
-import java.nio.file.Files;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import java.nio.file.Paths;
 
@@ -47,13 +41,10 @@ public class Dataset {
 	}
 
 	/**
-	 * Implement loadRatings method
-	 * Add javadoc
+	 * Load ratings data from this.getRawFile(), add Rating objects to this.ratingList
    * @return number of items in ratingList
 	 */
 	public int loadRatings() {
-    //test
-
     try{
       File file = this.getRawFile().toFile();
       Scanner scnr = new Scanner(file); 
@@ -61,9 +52,6 @@ public class Dataset {
       String pID;
       String rID;
       float rating;
-
-
-      
       while (scnr.hasNextLine()){
         line = scnr.nextLine(); 
         String[] lineArray = line.split(",");
@@ -86,15 +74,11 @@ public class Dataset {
 	}
 
 	/**
-	 * Implement loadStats method
-	 * Add javadoc
+   * Loads statistics from file, adds to this.ratingStat
+	 * @param inStatPath filepath to the calculated statistics
    * @return number of entries in ratingStat, 0 if file doesn't exist
 	 */
 	public int loadStats(Path inStatPath) {
-
-
-		//your code here
-
     try{
       File file = inStatPath.toFile();
       Scanner scnr = new Scanner(file); 
@@ -103,8 +87,6 @@ public class Dataset {
       long degree;
       Float productAvg;
       Float reviewerAvg; 
-
-
 
       while (scnr.hasNextLine()){
         line = scnr.nextLine(); 
@@ -120,17 +102,16 @@ public class Dataset {
         this.ratingStat.add(tempSummary);
       }
       scnr.close();
+      return this.ratingStat.size();
     }
     
     catch (FileNotFoundException e){
-      System.out.println("Failed to load stats, file not found");
+      return 0; 
     }
-    return this.ratingStat.size();
 	}
 
 	/**
-	 * Implement computeStats method
-	 * Add javadoc
+	 * Computes statistics and creates lists of users and products from ratingList
    * @return boolean on success
 	 */
 	public boolean computeStats() {

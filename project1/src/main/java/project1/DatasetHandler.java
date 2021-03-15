@@ -1,7 +1,6 @@
 package project1;
 
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.nio.file.Files;
 import java.nio.file.FileSystems;
 import java.nio.file.InvalidPathException;
@@ -60,16 +59,14 @@ public class DatasetHandler{
 	}
 
 	/**
-	 * Creates a string from this.db
-   * @return String 
-	 * add javadoc
+	 * Overwrites data.csv
+   * @return String containing database
 	 */
 	public String printDB(){
 
     StringBuilder dbString = new StringBuilder(); 
     for (Dataset temp : this.db){
       dbString.append(temp.toString()); 
-      // dbString.replace(start, end, str)
     }
 		// your code here 
     return dbString.toString(); 
@@ -111,8 +108,9 @@ public class DatasetHandler{
 	/**
 	 * saves stats to file dataID
    * @param dataID unique dataset identifier
+   * @throws IOException
 	 */
-	public void saveStatsToFile(final String dataID){
+	public void saveStatsToFile(final String dataID) throws IOException{
 		try{
       for (Dataset temp: this.db){
         Files.writeString(defineStatPath(dataID), temp.saveStats()); 
