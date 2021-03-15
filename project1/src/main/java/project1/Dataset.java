@@ -134,31 +134,32 @@ public class Dataset {
    * @return boolean on success
 	 */
 	public boolean computeStats() {
-		System.out.println("IN COMPUTE STATS");
-    for (Rating tempRating: this.ratingList){
-      boolean prodExist = false;
-      boolean reviewerExist = false;
+		ArrayList<String> objectsCreated = new ArrayList<String>();
+		for (Rating tempRating: this.ratingList){
+			boolean prodExist = false;
+			boolean reviewerExist = false;
 
-      for (AbstractRatingSummary tempSummary: this.ratingStat){ 
-        if (tempRating.getProductID().equals(tempSummary.getNodeID())){
-          prodExist = true;
-        }
-        if (tempRating.getReviewerID().equals(tempSummary.getNodeID())){
-          reviewerExist = true;
-        }
-	}
-		if (!prodExist){ 
-    	RatingSummary temp = new RatingSummary(tempRating.getProductID(), this.ratingList);
-    	this.ratingStat.add(temp); 
-    	}
+			if (objectsCreated.contains(tempRating.getProductID())){
+				prodExist = true;
+			}
+			if (objectsCreated.contains(tempRating.getReviewerID())){
+				reviewerExist = true;
+			}
+			
+			if (!prodExist){ 
+				RatingSummary temp = new RatingSummary(tempRating.getProductID(), this.ratingList);
+				this.ratingStat.add(temp); 
+				objectsCreated.add(tempRating.getProductID());
+			}
 
-    	if (!reviewerExist){
-        RatingSummary temp1 = new RatingSummary(tempRating.getReviewerID(), this.ratingList);
-        this.ratingStat.add(0, temp1); 
+			if (!reviewerExist){
+				RatingSummary temp1 = new RatingSummary(tempRating.getReviewerID(), this.ratingList);
+				this.ratingStat.add(0, temp1);
+				objectsCreated.add(tempRating.getReviewerID()); 
+			}
 		}
-	}
-    
-    return true; 
+		
+		return true; 
 
 	}
 

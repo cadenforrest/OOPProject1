@@ -119,103 +119,124 @@ public class RatingSummary extends AbstractRatingSummary{
 	 * add javadoc
 	 */
 	public void collectStats(final List<Rating> rawRatings){
-    long[] reviewerDegree = {0}; 
-    long[] productDegree = {0}; 
-    ArrayList<String> productsReviewedArray = new ArrayList<String>(); 
-    ArrayList<String> reviewersArray = new ArrayList<String>(); 
-    long[] totalRating = {0}; // total number of ratings
-    long[] ratingSum = {0}; // sum of the ratings of the products
-    long[] reviewerSum = {0}; 
-    long[] totalUserRatings = {0}; 
-    long[] totalProductRatings = {0}; 
-    long[] totalReviewersRating = {0}; 
+		long[] reviewerDegree = {0}; 
+		long[] productDegree = {0}; 
+		ArrayList<String> productsReviewedArray = new ArrayList<String>(); 
+		ArrayList<String> reviewersArray = new ArrayList<String>(); 
+		long[] totalRating = {0}; // total number of ratings
+		long[] ratingSum = {0}; // sum of the ratings of the products
+		long[] reviewerSum = {0}; 
+		long[] totalUserRatings = {0}; 
+		long[] totalProductRatings = {0}; 
+		long[] totalReviewersRating = {0}; 
 
-    //STREAM FOR CALCULATING REVIEWER STATS
-    rawRatings
-      .stream()
-      .filter(s -> {
-        return (s.getReviewerID().equals(this.getNodeID()));
-      })
-      .forEach((s) ->{
-        productsReviewedArray.add(s.getProductID());
-        totalUserRatings[0]++;
-        reviewerDegree[0]++; 
-      });
+		//STREAM FOR CALCULATING REVIEWER STATS
+		rawRatings
+		.stream()
+		.filter(s -> {
+			return (s.getReviewerID().equals(this.getNodeID()));
+		})
+		.forEach((s) ->{
+			productsReviewedArray.add(s.getProductID());
+			totalUserRatings[0]+=s.getRating();
+			reviewerDegree[0]++; 
+		});
 
-    //STREAM FOR CALCULATING PRODUCT STATS
-    rawRatings
-      .stream()
-      .filter(s -> {
-        return (s.getProductID().equals(this.getNodeID()));
-      })
-      .forEach((s) ->{
-        reviewersArray.add(s.getProductID()); 
-        productDegree[0]++; 
-        totalProductRatings[0]+=s.getRating(); 
-      });
+		//STREAM FOR CALCULATING PRODUCT STATS
+		rawRatings
+		.stream()
+		.filter(s -> {
+			return (s.getProductID().equals(this.getNodeID()));
+		})
+		.forEach((s) ->{
+			reviewersArray.add(s.getReviewerID()); 
+			productDegree[0]++; 
+			totalProductRatings[0]+=s.getRating(); 
+		});
 
-    rawRatings
-      .stream()
-      .filter
+		rawRatings
+		.stream()
+		.filter(s -> {
+			return (productsReviewedArray.contains(s.getProductID()));
+		})
+		.forEach((s) ->{
+			ratingSum[0]+=s.getRating(); 
+			totalRating[0]++;
+		});
+
+		rawRatings
+		.stream()
+		.filter(s -> {
+			return (reviewersArray.contains(s.getReviewerID()));
+		})
+		.forEach((s) ->{
+			reviewerSum[0]+=s.getRating(); 
+			totalReviewersRating[0]++;
+		});
 
 
+	/*
+		for (Rating temp: rawRatings){
+		//BEGIN CALCULATION FOR REVIEWER STATISTICS
+		if (temp.getReviewerID().equals(this.getNodeID())){
+			reviewerDegree++;
+			if (!productsReviewedArray.contains(temp.getProductID())){
+			productsReviewedArray.add(temp.getProductID()); 
+			reviewerSum+=temp.getRating(); 
+			totalReviewersRating++; 
+			}
+			totalUserRatings+=temp.getRating(); 
+		}
 
-    for (Rating temp: rawRatings){
-      //BEGIN CALCULATION FOR REVIEWER STATISTICS
-      if (temp.getReviewerID().equals(this.getNodeID())){
-        reviewerDegree++;
-        if (!productsReviewedArray.contains(temp.getProductID())){
-          productsReviewedArray.add(temp.getProductID()); 
-          reviewerSum+=temp.getRating(); 
-          totalReviewersRating++; 
-        }
-        totalUserRatings+=temp.getRating(); 
-      }
 
+		//BEGIN CALCULATION FOR PRODUCT STATISTICS
+		if (temp.getProductID().equals(this.getNodeID())){
+			productDegree++; 
+			if (!reviewersArray.contains(temp.getReviewerID())){
+			reviewersArray.add(temp.getReviewerID()); 
+			}
+			totalProductRatings+=temp.getRating(); 
+		}
+		}
+	*/
 
-      //BEGIN CALCULATION FOR PRODUCT STATISTICS
-      if (temp.getProductID().equals(this.getNodeID())){
-        productDegree++; 
-        if (!reviewersArray.contains(temp.getReviewerID())){
-          reviewersArray.add(temp.getReviewerID()); 
-        }
-        totalProductRatings+=temp.getRating(); 
-      }
-    }
+	/*
+		//CALCULATE PRODUCT AVG FOR REVIEWER ID
+		if (this.getNodeID().charAt(0) == 'A'){
+		for (String tempProd: productsReviewedArray){
+			for (Rating tempRating: rawRatings){
+			if (tempRating.getProductID().equals(tempProd)) {
+				ratingSum+=tempRating.getRating(); 
+				totalRating++; 
+			}
+			}
+		}
+	*/ 
+		//calc avg
+		if (this.getNodeID().charAt(0) == 'A'){
+		float prodAvg = (float) ratingSum[0] / totalRating[0]; 
+		float reviewerAvg = (float) totalUserRatings[0] / reviewerDegree[0]; 
+		this.setList(prodAvg, reviewerAvg);
+		this.setDegree(reviewerDegree[0]);
+		}
 
-    //CALCULATE PRODUCT AVG FOR REVIEWER ID
-    if (this.getNodeID().charAt(0) == 'A'){
-      for (String tempProd: productsReviewedArray){
-        for (Rating tempRating: rawRatings){
-          if (tempRating.getProductID().equals(tempProd)) {
-            ratingSum+=tempRating.getRating(); 
-            totalRating++; 
-          }
-        }
-      }
-      
-      //calc avg
-      float prodAvg = (float) ratingSum / totalRating; 
-      float reviewerAvg = (float) totalUserRatings / reviewerDegree; 
-      this.setList(prodAvg, reviewerAvg);
-      this.setDegree(reviewerDegree);
-    }
-
-    //CALCULATE REVIEWER AVG FOR PRODUCT ID
-    else {
-      for (String tempReviewer: reviewersArray){
-        for (Rating tempRating: rawRatings){
-          if (tempRating.getReviewerID().equals(tempReviewer)){
-            reviewerSum+=tempRating.getRating(); 
-            totalReviewersRating++; 
-          }
-        }
-      }
-      float prodAvg = (float) totalProductRatings / productDegree; 
-      float reviewerAvg = (float) reviewerSum / totalReviewersRating; 
-      this.setList(prodAvg, reviewerAvg);
-      this.setDegree(productDegree);
-    }
+	/*
+		//CALCULATE REVIEWER AVG FOR PRODUCT ID
+		else {
+		for (String tempReviewer: reviewersArray){
+			for (Rating tempRating: rawRatings){
+			if (tempRating.getReviewerID().equals(tempReviewer)){
+				reviewerSum+=tempRating.getRating(); 
+				totalReviewersRating++; 
+			}
+			}
+		}
+	*/	else{
+		float prodAvg = (float) totalProductRatings[0] / productDegree[0]; 
+		float reviewerAvg = (float) reviewerSum[0] / totalReviewersRating[0]; 
+		this.setList(prodAvg, reviewerAvg);
+		this.setDegree(productDegree[0]);
+		}
 	}
 
 

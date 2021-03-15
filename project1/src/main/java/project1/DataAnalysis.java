@@ -111,7 +111,7 @@ public class DataAnalysis {
 		
 		//Catch for if there are less than k products or entries in the sublist
 		if (i < k - 1){
-			stringBuilder.append("There are less than k entries for this type\n");
+			stringBuilder.append("There are less than " + k + " entries for this type\n");
 		}
 
 		finalString = stringBuilder.toString();
