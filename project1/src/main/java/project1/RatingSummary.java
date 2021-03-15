@@ -119,16 +119,46 @@ public class RatingSummary extends AbstractRatingSummary{
 	 * add javadoc
 	 */
 	public void collectStats(final List<Rating> rawRatings){
-    long reviewerDegree = 0; 
-    long productDegree = 0; 
+    long[] reviewerDegree = {0}; 
+    long[] productDegree = {0}; 
     ArrayList<String> productsReviewedArray = new ArrayList<String>(); 
     ArrayList<String> reviewersArray = new ArrayList<String>(); 
-    long totalRating = 0; // total number of ratings
-    long ratingSum = 0; // sum of the ratings of the products
-    long reviewerSum = 0; 
-    long totalUserRatings = 0; 
-    long totalProductRatings = 0; 
-    long totalReviewersRating = 0; 
+    long[] totalRating = {0}; // total number of ratings
+    long[] ratingSum = {0}; // sum of the ratings of the products
+    long[] reviewerSum = {0}; 
+    long[] totalUserRatings = {0}; 
+    long[] totalProductRatings = {0}; 
+    long[] totalReviewersRating = {0}; 
+
+    //STREAM FOR CALCULATING REVIEWER STATS
+    rawRatings
+      .stream()
+      .filter(s -> {
+        return (s.getReviewerID().equals(this.getNodeID()));
+      })
+      .forEach((s) ->{
+        productsReviewedArray.add(s.getProductID());
+        totalUserRatings[0]++;
+        reviewerDegree[0]++; 
+      });
+
+    //STREAM FOR CALCULATING PRODUCT STATS
+    rawRatings
+      .stream()
+      .filter(s -> {
+        return (s.getProductID().equals(this.getNodeID()));
+      })
+      .forEach((s) ->{
+        reviewersArray.add(s.getProductID()); 
+        productDegree[0]++; 
+        totalProductRatings[0]+=s.getRating(); 
+      });
+
+    rawRatings
+      .stream()
+      .filter
+
+
 
     for (Rating temp: rawRatings){
       //BEGIN CALCULATION FOR REVIEWER STATISTICS
@@ -136,6 +166,8 @@ public class RatingSummary extends AbstractRatingSummary{
         reviewerDegree++;
         if (!productsReviewedArray.contains(temp.getProductID())){
           productsReviewedArray.add(temp.getProductID()); 
+          reviewerSum+=temp.getRating(); 
+          totalReviewersRating++; 
         }
         totalUserRatings+=temp.getRating(); 
       }
@@ -161,6 +193,7 @@ public class RatingSummary extends AbstractRatingSummary{
           }
         }
       }
+      
       //calc avg
       float prodAvg = (float) ratingSum / totalRating; 
       float reviewerAvg = (float) totalUserRatings / reviewerDegree; 
